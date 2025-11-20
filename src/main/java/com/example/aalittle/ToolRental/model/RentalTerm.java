@@ -1,0 +1,30 @@
+package com.example.aalittle.ToolRental.model;
+
+import com.example.aalittle.ToolRental.enums.ToolCodeEnum;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDate;
+import java.util.Date;
+
+@Data
+public class RentalTerm {
+
+    @NotNull(message = "Please enter a tool code enum")
+    private ToolCodeEnum toolCodeEnum;
+
+    @NotNull(message = "Rental Days Must Be Entered")
+    @Min(value = 1, message = "Rental day count must be 1 or more")
+    private int rentalDayCount;
+
+    @Min(value = 0, message = "Discount Percent must be 0 or more")
+    @Max(value = 100, message = "Discount Percent must be 100 or under")
+    private int discountPercent;
+
+    @NotNull
+    @DateTimeFormat(pattern = "MM/dd/yy")
+    private LocalDate checkoutDate;
+}
