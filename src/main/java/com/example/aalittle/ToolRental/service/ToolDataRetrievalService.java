@@ -10,6 +10,9 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Service responsible for retrieving tool data
+ */
 @Service
 public class ToolDataRetrievalService {
 
@@ -24,7 +27,11 @@ public class ToolDataRetrievalService {
                 BigDecimal.valueOf(1.99), true, true, false));
     }};
 
-
+    /**
+     * Retrieve tool data if exists
+     * @param toolCodeEnum an enum which represents a tool
+     * @return {@link ToolData}
+     */
     public ToolData retrieveToolData(final ToolCodeEnum toolCodeEnum){
         return toolCodeMap.get(toolCodeEnum);
     }

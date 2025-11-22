@@ -1,6 +1,7 @@
 package com.example.aalittle.ToolRental.model;
 
 import com.example.aalittle.ToolRental.enums.ToolCodeEnum;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -8,13 +9,15 @@ import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
-import java.util.Date;
 
+/**
+ * Data class which holds all fields needed to rent an item
+ */
 @Data
 public class RentalTerm {
 
-    @NotNull(message = "Please enter a tool code enum")
-    private ToolCodeEnum toolCodeEnum;
+    @NotNull(message = "Please enter a valid tool code enum")
+    private ToolCodeEnum toolCode;
 
     @NotNull(message = "Rental Days Must Be Entered")
     @Min(value = 1, message = "Rental day count must be 1 or more")
@@ -25,6 +28,6 @@ public class RentalTerm {
     private int discountPercent;
 
     @NotNull
-    @DateTimeFormat(pattern = "MM/dd/yy")
+    @JsonFormat(pattern = "MM/dd/yy")
     private LocalDate checkoutDate;
 }

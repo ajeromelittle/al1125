@@ -9,7 +9,11 @@ import lombok.Data;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+/**
+ * Data class which holds all fields necessary to create a rental agreement
+ */
 @Builder
+@Data
 public class RentalAgreement {
 
     private ToolCodeEnum toolCode;

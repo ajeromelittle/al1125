@@ -6,6 +6,9 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 
+/**
+ * Data class which holds information related to a tool
+ */
 @Data
 public class ToolData {
 

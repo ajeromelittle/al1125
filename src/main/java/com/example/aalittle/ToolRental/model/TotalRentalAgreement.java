@@ -4,10 +4,13 @@ import lombok.Data;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Data class which contains a List of {@link RentalAgreement}
+ */
 @Data
 public class TotalRentalAgreement {
 
-    List<RentalAgreement> rentalAgreementList;
+    private List<RentalAgreement> rentalAgreementList;
 
     public TotalRentalAgreement(List<RentalAgreement> rentalAgreementList){
         this.rentalAgreementList = rentalAgreementList;
