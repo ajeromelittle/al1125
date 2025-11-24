@@ -54,9 +54,10 @@ Every time I realized AI misunderstood a requirement (like what "chargeable days
 **Fix:** I sent screenshots of my actual classes and told it to use my naming.
 
 ### Getting Too Much (Most common issue)
-**Problem:** Claude generated a bunch of validation tests I didn't need because those were being handled in the controller.
+**Problem:** Claude generated a bunch of validation tests I didn't need because those were being handled in the controller. In general Claude AI gives alot of information
 
-**Fix:** I clarified: "Let's not test any validation exceptions because they will be handled in the controller test."
+**Fix:** I clarified: "Let's not test any validation exceptions because they will be handled in the controller test." I also made sure to sift through all responses to find 
+core answer to my question.
 
 ### Business Logic Assumptions
 **Problem:** The rule about "first chargeable day is the day AFTER checkout" wasn't clear initially, causing off-by-one errors.
