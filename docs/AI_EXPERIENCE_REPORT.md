@@ -24,7 +24,7 @@ I forgot how to properly implement the Builder pattern. Instead of reading throu
 Couldn't remember the exact syntax for `@Valid` and `@Validated` in Spring Boot. Asked Claude and got a complete example with exception handling. Much faster than digging through old projects.
 
 ### Test Cases
-I gave Claude the business requirements and asked for help with test cases. It generated way more edge cases than I would have thought of on my own and organized everything into utility classes.
+I gave Claude the business requirements and asked for help with test cases. It generated way more edge cases than I would have thought of on my own and organized everything into utility classes when asked
 
 ### Refactoring
 Every time I realized AI misunderstood a requirement (like what "chargeable days" actually meant), Claude helped me refactor all the affected code consistently across the project.
