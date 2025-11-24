@@ -25,7 +25,23 @@ class GlobalErrorHandlerTest {
     }
 
     @Test
-    void testValidRentalTerm_NoViolations() {
+    public void test1_JAKR_September3_2015_5Days_101Discount_IsInvalid() {
+        RentalTerm term = new RentalTerm(
+                ToolCodeEnum.JAKR,
+                LocalDate.of(2015, 9, 3),
+                5,
+                101
+        );
+        Set<ConstraintViolation<RentalTerm>> violations = validator.validate(term);
+        assertFalse(violations.isEmpty(), "Discount Percent must be 100 or under");
+        assertEquals(1, violations.size());
+        assertTrue(violations.stream()
+                .anyMatch(v -> v.getPropertyPath().toString().equals("discountPercent")));
+
+    }
+
+    @Test
+    public void testValidRentalTerm_NoViolations() {
         RentalTerm term = new RentalTerm(
                 ToolCodeEnum.LADW,
                 LocalDate.of(2024, 6, 3),
@@ -37,7 +53,7 @@ class GlobalErrorHandlerTest {
     }
 
     @Test
-    void testRentalDays_Null_IsInvalid() {
+    public void testRentalDays_Null_IsInvalid() {
         RentalTerm term = new RentalTerm(
                 ToolCodeEnum.LADW,
                 LocalDate.of(2024, 6, 3),
@@ -52,7 +68,7 @@ class GlobalErrorHandlerTest {
     }
 
     @Test
-    void testRentalDays_Zero_IsInvalid() {
+    public void testRentalDays_Zero_IsInvalid() {
         RentalTerm term = new RentalTerm(
                 ToolCodeEnum.LADW,
                 LocalDate.of(2024, 6, 3),
@@ -66,7 +82,7 @@ class GlobalErrorHandlerTest {
     }
 
     @Test
-    void testRentalDays_Negative_IsInvalid() {
+    public void testRentalDays_Negative_IsInvalid() {
         RentalTerm term = new RentalTerm(
                 ToolCodeEnum.LADW,
                 LocalDate.of(2024, 6, 3),
@@ -80,7 +96,7 @@ class GlobalErrorHandlerTest {
     }
 
     @Test
-    void testDiscount_TooHigh_IsInvalid() {
+    public void testDiscount_TooHigh_IsInvalid() {
         RentalTerm term = new RentalTerm(
                 ToolCodeEnum.LADW,
                 LocalDate.of(2024, 6, 3),
@@ -94,7 +110,7 @@ class GlobalErrorHandlerTest {
     }
 
     @Test
-    void testDiscount_Negative_IsInvalid() {
+    public void testDiscount_Negative_IsInvalid() {
         RentalTerm term = new RentalTerm(
                 ToolCodeEnum.LADW,
                 LocalDate.of(2024, 6, 3),
@@ -108,7 +124,7 @@ class GlobalErrorHandlerTest {
     }
 
     @Test
-    void testDiscount_Zero_IsValid() {
+    public void testDiscount_Zero_IsValid() {
         RentalTerm term = new RentalTerm(
                 ToolCodeEnum.LADW,
                 LocalDate.of(2024, 6, 3),
@@ -120,7 +136,7 @@ class GlobalErrorHandlerTest {
     }
 
     @Test
-    void testDiscount_OneHundred_IsValid() {
+    public void testDiscount_OneHundred_IsValid() {
         RentalTerm term = new RentalTerm(
                 ToolCodeEnum.LADW,
                 LocalDate.of(2024, 6, 3),
@@ -132,7 +148,7 @@ class GlobalErrorHandlerTest {
     }
 
     @Test
-    void testToolCode_Null_IsInvalid() {
+    public void testToolCode_Null_IsInvalid() {
         RentalTerm term = new RentalTerm(
                 null,
                 LocalDate.of(2024, 6, 3),
@@ -146,7 +162,7 @@ class GlobalErrorHandlerTest {
     }
 
     @Test
-    void testCheckoutDate_Null_IsInvalid() {
+    public void testCheckoutDate_Null_IsInvalid() {
         RentalTerm term = new RentalTerm(
                 ToolCodeEnum.LADW,
                 null,
@@ -160,7 +176,7 @@ class GlobalErrorHandlerTest {
     }
 
     @Test
-    void testMultipleViolations_AllCaptured() {
+    public void testMultipleViolations_AllCaptured() {
         RentalTerm term = new RentalTerm(
                 null,
                 null,
