@@ -22,7 +22,7 @@ Calculates rental charges for tool rentals based on rental terms.
 - `toolCode` (required): Tool code enum (CHNS, LADW, JAKD, JAKR)
 - `checkoutDate` (required): Checkout date in MM/dd/yy format
 - `rentalDayCount` (required): Number of rental days (min: 1)
-- `discountPercent` (required): Discount percentage (0-100)
+- `discountPercent`: Discount percentage (0-100)
 
 ## Response
 
