@@ -7,7 +7,6 @@ import de.focus_shift.jollyday.core.ManagerParameters;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Locale;
 import java.util.Set;
 import java.util.stream.Collectors;
 

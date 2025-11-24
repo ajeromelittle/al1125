@@ -4,6 +4,7 @@ import com.example.aalittle.ToolRental.model.RentalAgreement;
 import com.example.aalittle.ToolRental.model.RentalTerm;
 import com.example.aalittle.ToolRental.model.ToolData;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -30,20 +31,16 @@ public class ToolRentalCalculationService {
 
     /**
      * Calculates the price for renting a tool(s)
-     * @param rentalTermsList a {@link List} of {@link RentalTerm}
+     * @param rentalTerm a {@link RentalTerm}
      * @return a {@link List} of {@link RentalAgreement}
      */
-    public List<RentalAgreement> calculateToolRental(final List<RentalTerm> rentalTermsList){
-
+    public RentalAgreement calculateToolRental(final RentalTerm rentalTerm){
         /// Notes for future improvement
         /// IF we have the SAME rental terms (e.g. 2 tools for the same dates) then we only need to do calculation once
         /// RATHER than calling the fairly heavy holidayService.findHolidaysInRange(rentalStartDate,rentalEndDate)
         /// we could get once and store in map?
-        /// Iterations through the rentalTerms List could be done async
-        ///(especially if the necessary operations ever get more data heavy)
-        return rentalTermsList.stream().map( rentalTerm -> {
-            /// CALCULATE ALL rental dates as a set
-            //First day of rental is exclusive
+        ///Add logging vs basic system.println
+        /// Does not account for rental terms more than `~100 years`
             LocalDate rentalStartDate = rentalTerm.getCheckoutDate();
             LocalDate rentalEndDate = rentalStartDate.plusDays(rentalTerm.getRentalDayCount());
 
@@ -54,7 +51,6 @@ public class ToolRentalCalculationService {
             //Last day is exclusive in datesUntil documentation
             Set<LocalDate> allRentalDays = rentalStartDate.plusDays(1).datesUntil
                     (rentalEndDate.plusDays(1)).collect(Collectors.toSet());
-
             //Remove all holidays from set if applicable
             Set<LocalDate> chargeableDays = new HashSet<>(allRentalDays);
             if(!toolData.isHolidayCharge()){
@@ -63,34 +59,42 @@ public class ToolRentalCalculationService {
                     chargeableDays.remove(holiday.getDate());
                 }
             }
-
             //Remove all weekends from set if applicable
             if(!toolData.isWeekendCharge()) {
-                chargeableDays = chargeableDays.stream().filter(localDate -> localDate.getDayOfWeek() == DayOfWeek.SATURDAY
-                        || localDate.getDayOfWeek() == DayOfWeek.SUNDAY).collect(Collectors.toSet());
+                chargeableDays = chargeableDays.stream().filter(localDate -> localDate.getDayOfWeek() != DayOfWeek.SATURDAY
+                        && localDate.getDayOfWeek() != DayOfWeek.SUNDAY).collect(Collectors.toSet());
             }
 
-            //What is left will be our subtotal
-            BigDecimal subTotal = toolData.getDailyCharge().multiply(BigDecimal.valueOf(chargeableDays.size()))
-                    .setScale(2, RoundingMode.HALF_UP);
-            BigDecimal discountAsPercent = BigDecimal.valueOf(((double) rentalTerm.getDiscountPercent() / (double)100 ));
-            BigDecimal discountAsValue = discountAsPercent.multiply(subTotal).setScale(2, RoundingMode.HALF_UP);
+            return calculateRentalAgreement(toolData, allRentalDays.size(),
+                    rentalStartDate, rentalEndDate,
+                    chargeableDays.size(), rentalTerm);
 
-            //Doesn't state rounding for the final total, most places round up
-            BigDecimal discountedTotal = subTotal.subtract(discountAsValue);
-            return RentalAgreement.builder()
-                    .toolCode(rentalTerm.getToolCode())
-                    .toolType(toolData.getToolType())
-                    .toolBrand(toolData.getToolBrand())
-                    .rentalDays(allRentalDays.size())
-                    .checkoutDate(rentalStartDate)
-                    .dueDate(rentalEndDate)
-                    .chargeableDays(chargeableDays.size())
-                    .dailyCharge(toolData.getDailyCharge())
-                    .subTotal(subTotal)
-                    .discountPercent(discountAsPercent)
-                    .discountAmount(discountAsValue)
-                    .discountCharge(discountedTotal).build();
-        } ).toList();
+    }
+
+    private RentalAgreement calculateRentalAgreement(final ToolData toolData, final int allRentalDays,
+                                                      final LocalDate rentalStartDate, final LocalDate rentalEndDate,
+                                                      final int chargeableDays, final RentalTerm rentalTerm) {
+
+        BigDecimal subTotal = toolData.getDailyCharge().multiply(BigDecimal.valueOf(chargeableDays))
+                .setScale(2, RoundingMode.HALF_UP);
+        BigDecimal discountAsDecimal = BigDecimal.valueOf(((double) rentalTerm.getDiscountPercent() / (double)100 ));
+        BigDecimal discountAsValue = discountAsDecimal.multiply(subTotal).setScale(2, RoundingMode.HALF_UP);
+
+        BigDecimal discountedTotal = subTotal.subtract(discountAsValue);
+        RentalAgreement rentalAgreement =  RentalAgreement.builder()
+                .toolCode(rentalTerm.getToolCode())
+                .toolType(toolData.getToolType())
+                .toolBrand(toolData.getToolBrand())
+                .rentalDays(allRentalDays)
+                .checkoutDate(rentalStartDate)
+                .dueDate(rentalEndDate)
+                .chargeableDays(chargeableDays)
+                .dailyCharge(toolData.getDailyCharge())
+                .subTotal(subTotal)
+                .discountPercent(discountAsDecimal.multiply(BigDecimal.valueOf(100)))
+                .discountAmount(discountAsValue)
+                .discountCharge(discountedTotal).build();
+        rentalAgreement.printToConsole();
+        return rentalAgreement;
     }
 }

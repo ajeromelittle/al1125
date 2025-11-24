@@ -1,9 +1,9 @@
-package com.example.aalittle.Tool_Rental;
-
-import com.example.aalittle.ToolRental.service.HolidayService;
+package com.example.aalittle.ToolRental.service;
 import de.focus_shift.jollyday.core.Holiday;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -13,8 +13,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
+@SpringBootTest
 public class HolidayServiceTest {
 
+    @Autowired
     private HolidayService holidayService;
 
     @BeforeEach

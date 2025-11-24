@@ -1,20 +1,18 @@
-package com.example.aalittle.Tool_Rental;
+package com.example.aalittle.ToolRental.service;
 
 import com.example.aalittle.ToolRental.enums.ToolCodeEnum;
-import com.example.aalittle.ToolRental.service.ToolDataRetrievalService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@SpringBootTest
 public class ToolDataRetrievalServiceTest {
 
+    @Autowired
     private ToolDataRetrievalService toolDataRetrievalService;
-
-    @BeforeEach
-    public void setup() {
-        toolDataRetrievalService = new ToolDataRetrievalService();
-    }
 
     @Test
     public void testRetrieveToolDataWithNullCode_returnsNull() {
