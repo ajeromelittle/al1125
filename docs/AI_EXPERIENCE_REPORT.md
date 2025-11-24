@@ -27,7 +27,7 @@ Couldn't remember the exact syntax for `@Valid` and `@Validated` in Spring Boot.
 I gave Claude the business requirements and asked for help with test cases. It generated way more edge cases than I would have thought of on my own and organized everything into utility classes.
 
 ### Refactoring
-Every time I realized I misunderstood a requirement (like what "chargeable days" actually meant), Claude helped me refactor all the affected code consistently across the project.
+Every time I realized AI misunderstood a requirement (like what "chargeable days" actually meant), Claude helped me refactor all the affected code consistently across the project.
 
 ---
 
