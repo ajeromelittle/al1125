@@ -1,5 +1,6 @@
 # Rental Controller API
 
+## PORT 8080
 ## Endpoint
 
 **POST** `/api/rentItems/`
@@ -41,10 +42,3 @@ Calculates rental charges for tool rentals based on rental terms.
   "discountCharge": 3.58
 }
 ```
-
-## Validation
-
-- Tool code must be valid enum value
-- Rental day count must be ≥ 1
-- Discount percent must be 0-100
-- Invalid requests return 400 with error details
