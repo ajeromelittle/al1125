@@ -33,8 +33,6 @@ Every time I realized I misunderstood a requirement (like what "chargeable days"
 
 ## What Worked Really Well
 
-**Context Memory:** Claude remembered everything from earlier in our conversation. When I asked about validation later, it used rental-specific examples without me having to explain the project again.
-
 **Complete Examples:** I got full working code with imports and error handling, not just fragments. I could literally copy-paste and run it, especially for test cases.
 
 **Multiple Options:** When I asked about validation, Claude didn't just give me one answer - it explained the different approaches and when to use each one.
